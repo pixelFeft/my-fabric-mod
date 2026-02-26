@@ -31,15 +31,16 @@ public class WorldRendererMixin {
         List<SeedCalculator.OreNode> ores = SeedCalculator.getOreInChunk(SeedOre.serverSeed, chunkPos);
 
         if (!ores.isEmpty()) {
-            // В 1.21.10 используем RenderLayer для простых линий или прямой доступ к шейдеру
-            RenderSystem.setShader(ServiceProvider.GAME_RENDERER.get().getCoreShader(CoreShaders.POSITION_COLOR));
+            // Настройка рендера
+            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
             RenderSystem.enableBlend();
-            // Глубину теперь отключаем через стейт
-            RenderSystem.depthMask(false);
+            RenderSystem.defaultBlendFunc();
             RenderSystem.disableCull();
-
+            // Вместо depthMask используем прямое переключение через RenderSystem, если доступно
+            // или оставляем так для совместимости
+            
             Tessellator tessellator = Tessellator.getInstance();
-            // Используем VertexFormat напрямую из констант
+            // В некоторых маппингах 1.21 VertexFormat.DrawMode лежит внутри VertexFormat
             BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
 
             for (SeedCalculator.OreNode node : ores) {
@@ -51,16 +52,16 @@ public class WorldRendererMixin {
                 int g = (node.color >> 8) & 0xFF;
                 int b = node.color & 0xFF;
 
-                // Рисуем одну линию для проверки
+                // Рисуем одну линию
                 bufferBuilder.vertex(x, y, z).color(r, g, b, 255);
                 bufferBuilder.vertex(x + 1, y + 1, z + 1).color(r, g, b, 255);
             }
             
+            // Пробуем вызвать отрисовку через встроенный метод буфера
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
             
-            // Возвращаем настройки
-            RenderSystem.depthMask(true);
             RenderSystem.enableCull();
+            RenderSystem.disableBlend();
         }
     }
 }
