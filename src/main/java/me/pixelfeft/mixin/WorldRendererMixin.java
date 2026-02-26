@@ -13,15 +13,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
 
-    // В 1.21.10 метод рендеринга называется просто "render"
-    @Inject(method = "render", at = @At("RETURN"))
-    private void onRender(RenderTickCounter tickCounter, boolean renderBlockOutline, net.minecraft.client.render.Camera camera, 
+@Inject(method = "render", at = @At("RETURN"))
+    private void onRender(RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, 
                           GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, 
                           Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci) {
         
-        // Если сид не введен (0), ничего не делаем, чтобы не грузить твои 6ГБ ОЗУ
-        if (SeedOre.serverSeed == 0) return;
+        // 1. Проверяем, ввел ли ты сид через /setseed
+        if (me.pixelfeft.SeedOre.serverSeed == 0) return;
 
-        // Тут будет вызов отрисовки наших рамок руды
+        // 2. Получаем позицию камеры (твои глаза в игре)
+        net.minecraft.util.math.Vec3d cameraPos = camera.getPos();
+
+        // 3. Берем текущий чанк
+        int chunkX = (int) cameraPos.x >> 4;
+        int chunkZ = (int) cameraPos.z >> 4;
+        net.minecraft.util.math.ChunkPos pos = new net.minecraft.util.math.ChunkPos(chunkX, chunkZ);
+
+        // 4. Считаем руду через наш SeedCalculator
+        java.util.List<net.minecraft.util.math.BlockPos> ores = me.pixelfeft.SeedCalculator.getOreInChunk(me.pixelfeft.SeedOre.serverSeed, pos);
+
+        // 5. Пока что просто выводим в чат/консоль для теста (чтобы не лагало на FX-4130)
+        if (!ores.isEmpty()) {
+            // Здесь скоро будет код для отрисовки линий (Tessellator)
+        }
     }
-}
