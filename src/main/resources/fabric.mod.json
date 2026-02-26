@@ -1,38 +1,30 @@
 {
-	"schemaVersion": 1,
-	"id": "seedore",
-	"version": "${version}",
-	"name": "SeedOre",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/seedore/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"me.pixelfeft.SeedOre"
-		],
-		"client": [
-			"me.pixelfeft.SeedOreClient"
-		]
-	},
-	"mixins": [
-		"seedore.mixins.json",
-		{
-			"config": "seedore.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.18.4",
-		"minecraft": "~1.21.10",
-		"java": ">=21",
-		"fabric-api": "*"
-	}
+  "schemaVersion": 1,
+  "id": "seedore",
+  "version": "1.0.0",
+  "name": "Seed Ore Mod",
+  "description": "X-Ray по сиду для 1.21.10",
+  "authors": [
+    "pixelfeft"
+  ],
+  "contact": {
+    "sources": "https://github.com/pixelfeft/my-fabric-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/seedore/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.pixelfeft.SeedOre"
+    ]
+  },
+  "mixins": [
+    "seedore.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.21.10",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
 }
