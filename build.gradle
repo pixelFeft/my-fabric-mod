@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    // Основное: Майнкрафт 1.21.10
+    // Основное: Майнкрат 1.21.10
     minecraft "com.mojang:minecraft:1.21.10"
     // Маппинги Yarn для 1.21.10
     mappings "net.fabricmc:yarn:1.21.10+build.3"
