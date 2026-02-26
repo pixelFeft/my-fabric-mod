@@ -12,12 +12,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
-@Inject(method = "render", at = @At("RETURN"))
-    private void onRender(RenderTickCounter tickCounter, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci) {
-        if (SeedOre.serverSeed == 0) return; // Если сид не введен, ничего не рисуем
 
-        // Здесь мы будем вызывать отрисовку линий (ESP)
-        // Для теста пока просто выведем в консоль, что мы нашли точку
-        // LOGGER.info("Рисую руду на координатах...");
+    // В 1.21.10 метод рендеринга называется просто "render"
+    @Inject(method = "render", at = @At("RETURN"))
+    private void onRender(RenderTickCounter tickCounter, boolean renderBlockOutline, net.minecraft.client.render.Camera camera, 
+                          GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, 
+                          Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci) {
+        
+        // Если сид не введен (0), ничего не делаем, чтобы не грузить твои 6ГБ ОЗУ
+        if (SeedOre.serverSeed == 0) return;
+
+        // Тут будет вызов отрисовки наших рамок руды
     }
 }
