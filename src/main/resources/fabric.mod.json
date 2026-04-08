@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "seedore",
+  "id": "modmanager",
   "version": "1.0.0",
-  "name": "Seed Ore Mod",
-  "description": "X-Ray по сиду для 1.21.10",
+  "name": "ModManager",
+  "description": "ModManager BY PixelFeft",
   "authors": [
     "pixelfeft"
   ],
@@ -11,15 +11,15 @@
     "sources": "https://github.com/pixelfeft/my-fabric-mod"
   },
   "license": "MIT",
-  "icon": "assets/seedore/icon.png",
+  "icon": "assets/modmanager/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.pixelfeft.SeedOre"
+      "me.pixelfeft.modmanager"
     ]
   },
   "mixins": [
-    "seedore.mixins.json"
+    "manager.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.17.2",
